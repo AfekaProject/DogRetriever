@@ -6,4 +6,8 @@
     <string name="address">Address:</string>
     <string name="e_mail">E-Mail</string>
     <string name="my_dogs">My Dogs:</string>
+    <string name="breed">Breed:</string>
+    <string name="color">Color:</string>
+    <string name="size">Size:</string>
+    <string name="name">Name:</string>
 </resources>

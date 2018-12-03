@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Presenter.ProfileActivity"></activity>
+        <activity android:name=".Presenter.ProfileActivity" />
+        <activity android:name=".Presenter.ScannerActivity"></activity>
     </application>
 
 </manifest>

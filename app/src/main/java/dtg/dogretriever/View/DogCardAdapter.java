@@ -1,4 +1,4 @@
-package dtg.dogretriever.Presenter;
+package dtg.dogretriever.View;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import dtg.dogretriever.Model.Dog;
 import dtg.dogretriever.R;
 
@@ -54,7 +52,10 @@ public class DogCardAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.nameTextView.setText(dogArrayList.get(position).());
+        viewHolder.nameTextView.setText(dogArrayList.get(position).getName());
+        viewHolder.sizeTextView.setText(dogArrayList.get(position).getSize());
+        viewHolder.colorTextView.setText(dogArrayList.get(position).getColor());
+        viewHolder.breedTextView.setText(dogArrayList.get(position).getBreed());
         return convertView;
         }
 

@@ -16,7 +16,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickScanner(View view) {
-
+        Intent i = new Intent(getBaseContext(),ScannerActivity.class);
+        startActivity(i);
     }
 
     public void clickFindMyDog(View view) {

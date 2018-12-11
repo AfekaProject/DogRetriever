@@ -4,20 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.transition.Transition;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-
-
 import java.util.ArrayList;
-
 import dtg.dogretriever.Model.Dog;
 import dtg.dogretriever.R;
 import dtg.dogretriever.View.DogNamesAdapter;
@@ -64,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void createPopUpChooseDogName(){
-
+/*
         LayoutInflater layoutInflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.choose_dog_popup, null);
 
@@ -91,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+*/
 
     }
 
@@ -99,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Dog> createDogsList(){
 
         ArrayList<Dog> dogs = new ArrayList<>();
-        dogs.add(new Dog("Luka"));
-        dogs.add(new Dog("Nala"));
+      //  dogs.add(new Dog("Luka"));
+       // dogs.add(new Dog("Nala"));
 
         return dogs;
     }

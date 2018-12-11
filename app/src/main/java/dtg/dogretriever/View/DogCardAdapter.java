@@ -12,13 +12,10 @@ import dtg.dogretriever.R;
 
 public class DogCardAdapter extends BaseAdapter {
 
-    private Context context;
     private ArrayList<Dog> dogArrayList;
     private LayoutInflater inflater;
-    private ViewHolder viewHolder;
 
     public DogCardAdapter(Context context, ArrayList<Dog> dogArrayList) {
-        this.context = context;
         this.dogArrayList = dogArrayList;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -40,7 +37,10 @@ public class DogCardAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
         if (convertView == null) {
+
+
             convertView = inflater.inflate(R.layout.scanner_dog_layout,
                     parent, false);
             viewHolder = new ViewHolder();
@@ -53,13 +53,13 @@ public class DogCardAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.nameTextView.setText(dogArrayList.get(position).getName());
-        viewHolder.sizeTextView.setText(dogArrayList.get(position).getSize());
+        viewHolder.sizeTextView.setText(String.valueOf(dogArrayList.get(position).getSize()));
         viewHolder.colorTextView.setText(dogArrayList.get(position).getColor());
         viewHolder.breedTextView.setText(dogArrayList.get(position).getBreed());
         return convertView;
         }
 
-    static class ViewHolder {
+    static private class ViewHolder {
         private TextView nameTextView;
         private TextView sizeTextView;
         private TextView colorTextView;

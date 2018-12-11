@@ -3,6 +3,7 @@ package dtg.dogretriever.Model;
 public class Dog {
     private enum enumSize {TINY , SMALL, MEDIUM, LARGE};
 
+
     private int collarId;
     private String name;
     private String breed;

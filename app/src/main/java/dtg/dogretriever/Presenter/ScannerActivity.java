@@ -2,6 +2,7 @@ package dtg.dogretriever.Presenter;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -30,8 +31,11 @@ public class ScannerActivity extends AppCompatActivity {
 
     private void initListToShow() {
         dogArrayList = new ArrayList<>();
-        dogArrayList.add(new Dog(1,"Luka","Pitbull","White","Small","Insane"));
-        dogArrayList.add(new Dog(2,"Nala","Labrador","White","Fat","Fat"));
-        dogArrayList.add(new Dog(3,"kc","Pincher","Brown","Tiny","Good girl"));
+       // dogArrayList.add(new Dog(1,"Luka","Pitbull","White","Small","Insane"));
+       // dogArrayList.add(new Dog(2,"Nala","Labrador","White","Fat","Fat"));
+       // dogArrayList.add(new Dog(3,"kc","Pincher","Brown","Tiny","Good girl"));
+    }
+
+    public void startScan(View view) {
     }
 }

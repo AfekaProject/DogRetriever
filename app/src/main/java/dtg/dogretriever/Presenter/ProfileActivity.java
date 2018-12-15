@@ -7,6 +7,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import dtg.dogretriever.DebugUtils;
 import dtg.dogretriever.Model.Dog;
 import dtg.dogretriever.R;
 import dtg.dogretriever.View.DogsListAdapter;
@@ -22,8 +23,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        dogsList = new ArrayList<Dog>();
-        initListToShow();
+
+        dogsList = DebugUtils.createDogArrayList();
 
         dogsListAdapter = new DogsListAdapter(dogsList,this);
 
@@ -34,10 +35,5 @@ public class ProfileActivity extends AppCompatActivity {
        // dogsListAdapter.notifyDataSetChanged();
     }
 
-    private void initListToShow() {
-        dogsList.add(new Dog("1","Luka","Pitbull","White",Dog.enumSize.SMALL,"Insane"));
-        dogsList.add(new Dog("2","Nala","Labrador","White",Dog.enumSize.LARGE,"Fat"));
-        dogsList.add(new Dog("3","kc","Pincher","Brown",Dog.enumSize.TINY,"Good girl"));
-    }
 
 }

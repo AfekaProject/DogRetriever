@@ -13,19 +13,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-
 import dtg.dogretriever.Model.Dog;
 import dtg.dogretriever.Model.Profile;
 import dtg.dogretriever.R;
 import dtg.dogretriever.View.DogNamesAdapter;
+
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -177,7 +175,13 @@ public class MainActivity extends AppCompatActivity {
              dogIdCounter+=1;
          }
 
-        Profile profile = new Profile(id+"",userName,fullName,password,eMail,phoneNumber,address,dogIdArrayList,randomIamge);
+        Profile profile = new Profile.ProfileBuilder(id+"",userName,fullName,password)
+                .seteMail(eMail)
+                .setPhoneNumber(phoneNumber)
+                .setAddress(address)
+                .setDogArrayList(dogIdArrayList)
+                .setProfileImage(randomIamge)
+                .build();
          return profile;
     }
     public String getRandomName() {
@@ -253,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
          String name = getOneWordName();
          String breed = getRandomBreed();
          String color = getRandomColor();
-         Dog.enumSize size = getRandomSize();
+         Dog.EnumSize size = getRandomSize();
          String notes = "Random Note";
 
         Dog dog = new Dog(collarId,name,breed,color,size,notes);
@@ -298,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
 
         return colorList.get(n);
     }
-    public Dog.enumSize getRandomSize() {
+    public Dog.EnumSize getRandomSize() {
         //Generate random size for Database testing
         Random rand = new Random();
         int n = rand.nextInt(4);
@@ -306,16 +310,16 @@ public class MainActivity extends AppCompatActivity {
         switch (n){
 
             case 0:
-                return Dog.enumSize.TINY;
+                return Dog.EnumSize.TINY;
 
             case 1:
-                return Dog.enumSize.SMALL;
+                return Dog.EnumSize.SMALL;
 
             case 2:
-                return Dog.enumSize.MEDIUM;
+                return Dog.EnumSize.MEDIUM;
 
             default:
-                return Dog.enumSize.LARGE;
+                return Dog.EnumSize.LARGE;
         }
 
     }

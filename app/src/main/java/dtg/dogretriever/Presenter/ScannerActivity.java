@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import dtg.dogretriever.Bluetooth.Beacon;
 import dtg.dogretriever.Bluetooth.PermissionPopUp;
+import dtg.dogretriever.DebugUtils;
 import dtg.dogretriever.Model.Dog;
 import dtg.dogretriever.R;
 import dtg.dogretriever.Bluetooth.ScannerService;
@@ -48,7 +49,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerService
         dogScanAdapter = new DogScanAdapter(getBaseContext(),dogsInListView);
 
         dogScanList.setAdapter(dogScanAdapter);
-        initDogArray();
+        dogArrayList = DebugUtils.createDogArrayList();
     }
 
     @Override
@@ -123,12 +124,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerService
     }
 
 
-    private void initDogArray (){
-        dogArrayList = new ArrayList<>();
-        dogArrayList.add(new Dog.DogBuilder("aaaaaa").setName("test1").setBreed("breed1").build());
-        dogArrayList.add(new Dog.DogBuilder("bbbbbb").setName("test2").setBreed("breed2").build());
-        dogArrayList.add(new Dog.DogBuilder("cccccc").setName("test3").setBreed("breed3").build());
-    }
+
 
 
 

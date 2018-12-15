@@ -3,13 +3,14 @@ package dtg.dogretriever.Model;
 import java.util.ArrayList;
 
 public class Dog {
-    public enum enumSize {TINY , SMALL, MEDIUM, LARGE};
+    public enum EnumSize {TINY , SMALL, MEDIUM, LARGE};
+
 
     private String collarId;
     private String name;
     private String breed;
     private String color;
-    private enumSize size;
+    private EnumSize size;
     private String notes;
     private String ownerId;
     private ArrayList<Coordinate> scannedCoords;
@@ -32,7 +33,7 @@ public class Dog {
 
     }
 
-    public Dog(String collarId, String name, String breed, String color, enumSize size, String notes) {
+    public Dog(String collarId, String name, String breed, String color, EnumSize size, String notes) {
         this.collarId = collarId;
         this.name = name;
         this.breed = breed;
@@ -73,11 +74,11 @@ public class Dog {
         this.color = color;
     }
 
-    public enumSize getSize() {
+    public EnumSize getSize() {
         return size;
     }
 
-    public void setSize(enumSize size) {
+    public void setSize(EnumSize size) {
         this.size = size;
     }
 
@@ -129,7 +130,7 @@ public class Dog {
         private String name;
         private String breed;
         private String color;
-        private enumSize size;
+        private EnumSize size;
         private String notes;
         private ArrayList<Coordinate> scannedCoords;
 
@@ -163,7 +164,7 @@ public class Dog {
             return this;
         }
 
-        public DogBuilder setSize(enumSize size) {
+        public DogBuilder setSize(EnumSize size) {
             this.size = size;
             return this;
         }

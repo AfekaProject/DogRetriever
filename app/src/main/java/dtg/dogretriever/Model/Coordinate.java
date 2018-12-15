@@ -8,6 +8,9 @@ public class Coordinate {
     Date timeStamp;
     Float errorApproximation;
 
+    public Coordinate(){
+    }
+
     public Coordinate(LatLng location, Date timeStamp, Float errorApproximation) {
         this.location = location;
         this.timeStamp = timeStamp;
@@ -43,4 +46,6 @@ public class Coordinate {
     public void setErrorApproximation(Float errorApproximation) {
         this.errorApproximation = errorApproximation;
     }
+
+
 }

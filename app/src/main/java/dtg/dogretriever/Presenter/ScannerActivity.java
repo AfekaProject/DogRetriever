@@ -1,70 +1,135 @@
 package dtg.dogretriever.Presenter;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
-import android.os.Handler;
 import android.os.IBinder;
-import android.renderscript.ScriptGroup;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 
 
-import dtg.dogretriever.Bluetooth.Utils;
+import java.util.ArrayList;
+
+import dtg.dogretriever.Bluetooth.Beacon;
+import dtg.dogretriever.Bluetooth.PermissionPopUp;
+import dtg.dogretriever.Model.Dog;
 import dtg.dogretriever.R;
 import dtg.dogretriever.Bluetooth.ScannerService;
+import dtg.dogretriever.View.DogScanAdapter;
 
-public class ScannerActivity extends AppCompatActivity{
-
+public class ScannerActivity extends AppCompatActivity implements ScannerService.OnBeaconEventListener, ServiceConnection{
+    //log vars
     private static final String TAG = ScannerActivity.class.getSimpleName();
-    private boolean isBound = false;
 
+   //service vars
+    private boolean isBound = false;
     private ScannerService mBoundService;
 
-    private ServiceConnection mConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            mBoundService = ((ScannerService.LocalBinder)service).getService();
-        }
+    //view vars
+    ListView dogScanList;
+    DogScanAdapter dogScanAdapter;
+    //beacon vars
+    private ArrayList<Beacon> beaconsFound;
+    private ArrayList<Dog> dogsInListView;
 
-        public void onServiceDisconnected(ComponentName className) {
-            mBoundService = null;
-            isBound = false;
-        }
-    };
+    //debugs vars
+    private ArrayList<Dog> dogArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
-    }
+        beaconsFound = new ArrayList<>();
+        dogsInListView = new ArrayList<>();
+        dogScanList = findViewById(R.id.scanner_scannedList);
+        dogScanAdapter = new DogScanAdapter(getBaseContext(),dogsInListView);
 
+        dogScanList.setAdapter(dogScanAdapter);
+        initDogArray();
+    }
 
     @Override
     protected void onPause() {
         super.onPause();
         if (isBound) {
             // Release information about the service's state.
-            unbindService(mConnection);
+            unbindService(this);
             isBound = false;
         }
     }
 
 
-
     public void onStartScanClick(View view) {
-        if ((Utils.checkBluetoothStatus(this))) {
+        if ((PermissionPopUp.checkBluetoothStatus(this))) {
             Intent intent = new Intent(this, ScannerService.class);
-            if (bindService(intent, mConnection, BIND_AUTO_CREATE))
+            if (bindService(intent, this, BIND_AUTO_CREATE))
                 isBound=true;
             Log.println(Log.ASSERT,TAG, "click start scan button");
 
         }
+        dogsInListView.clear();
+        dogScanAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        mBoundService = ((ScannerService.LocalBinder)iBinder).getService();
+        mBoundService.setBeaconEventListener(this);
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+        mBoundService = null;
+        isBound = false;
+    }
+    @Override
+    public void onBeaconIdentifier(String deviceAddress, int rssi, String instanceId) {
+        final long now = System.currentTimeMillis();
+        //if beacon already have been Identified
+        for (Beacon item : beaconsFound){
+            if (instanceId.equals(item.getId())) {
+                item.update(deviceAddress, rssi, now);
+                return;
+            }
+        }
+        //create new beacon obj
+
+
+        Beacon beacon = new Beacon(deviceAddress, rssi, instanceId, now);
+        beaconsFound.add(beacon);
+        //relate to dog and view in listView
+        Dog dog = searchRelateDog(instanceId);
+        if (ScannerService.DEBUG_SCAN) {
+            Log.println(Log.ASSERT,TAG, "Eddystone(" + deviceAddress + ") id = " + instanceId);
+            Log.println(Log.ASSERT,TAG, dog.toString());
+        }
+        if (dog != null){
+            dogsInListView.add(dog);
+            dogScanAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+    private Dog searchRelateDog (String id){
+        // work with debug arrayList. toDo change to FireBase
+        for (Dog dog : dogArrayList){
+            if (id.equals(dog.getCollarId()))
+                return dog;
+        }
+        return null;
+    }
+
+
+    private void initDogArray (){
+        dogArrayList = new ArrayList<>();
+        dogArrayList.add(new Dog.DogBuilder("aaaaaa").setName("test1").setBreed("breed1").build());
+        dogArrayList.add(new Dog.DogBuilder("bbbbbb").setName("test2").setBreed("breed2").build());
+        dogArrayList.add(new Dog.DogBuilder("cccccc").setName("test3").setBreed("breed3").build());
+    }
+
 
 
 }

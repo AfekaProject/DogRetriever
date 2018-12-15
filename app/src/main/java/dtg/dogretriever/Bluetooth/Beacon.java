@@ -37,4 +37,20 @@ public class Beacon {
         }
         return sb.toString();
     }
+
+    public String getDeviceAddress() {
+        return deviceAddress;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public int getLatestRssi() {
+        return latestRssi;
+    }
+
+    public long getLastDetectedTimestamp() {
+        return lastDetectedTimestamp;
+    }
 }

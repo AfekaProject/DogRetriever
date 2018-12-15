@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import dtg.dogretriever.Model.Dog;
 import dtg.dogretriever.R;
 
-public class DogCardAdapter extends BaseAdapter {
+public class DogScanAdapter extends BaseAdapter {
 
     private ArrayList<Dog> dogArrayList;
     private LayoutInflater inflater;
 
-    public DogCardAdapter(Context context, ArrayList<Dog> dogArrayList) {
+    public DogScanAdapter(Context context, ArrayList<Dog> dogArrayList) {
         this.dogArrayList = dogArrayList;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

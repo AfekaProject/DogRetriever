@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ScannerService extends Service {
 
-    private static boolean DEBUG_SCAN = true;
+    public static boolean DEBUG_SCAN = true;
 
     private static final String TAG = ScannerService.class.getSimpleName();
 
@@ -34,6 +34,7 @@ public class ScannerService extends Service {
     private static final byte[] NAMESPACE_FILTER = {
             0x00, //Frame type
             0x00, //TX power
+            // nameSpace  0efe21da85f7b09d4099
             (byte)0x0e, (byte)0xfe, (byte)0x21, (byte)0xda, (byte)0x85,
             (byte)0xf7, (byte)0xb0, (byte)0x9d, (byte)0x40, (byte)0x99,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00
@@ -41,8 +42,7 @@ public class ScannerService extends Service {
 
     // Force frame type and namespace id to match
     private static final byte[] NAMESPACE_FILTER_MASK = {
-            (byte)0xFF,
-            0x00,
+            (byte)0xFF,0x00,
             (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF,
             (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00
@@ -120,10 +120,6 @@ public class ScannerService extends Service {
 
     /* Handle UID packet discovery on the main thread */
     private void processUidPacket(String deviceAddress, int rssi, String id) {
-        if (DEBUG_SCAN) {
-            Log.println(Log.ASSERT,TAG, "Eddystone(" + deviceAddress + ") id = " + id);
-        }
-
         if (mBeaconEventListener != null) {
             mBeaconEventListener
                     .onBeaconIdentifier(deviceAddress, rssi, id);
@@ -163,10 +159,9 @@ public class ScannerService extends Service {
             final String deviceAddress = result.getDevice().getAddress();
             final int rssi = result.getRssi();
             byte frameType = data[0];
-            switch (frameType) {
+            switch (frameType) {    //cab be if else in case we dont use TLM/EID/URL
                 case TYPE_UID:
                     final String id = Beacon.getInstanceId(data);
-
                     mCallbackHandler.post(new Runnable() {
                         @Override
                         public void run() {

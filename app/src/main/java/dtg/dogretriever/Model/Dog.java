@@ -4,7 +4,7 @@ public class Dog {
     private enum enumSize {TINY , SMALL, MEDIUM, LARGE};
 
 
-    private int collarId;
+    private String collarId;
     private String name;
     private String breed;
     private String color;
@@ -25,7 +25,7 @@ public class Dog {
 
     }
 
-    public Dog(int collarId, String name, String breed, String color, enumSize size, String notes) {
+    public Dog(String collarId, String name, String breed, String color, enumSize size, String notes) {
         this.collarId = collarId;
         this.name = name;
         this.breed = breed;
@@ -34,11 +34,11 @@ public class Dog {
         this.notes = notes;
     }
 
-    public int getCollarId() {
+    public String getCollarId() {
         return collarId;
     }
 
-    public void setCollarId(int collarId) {
+    public void setCollarId(String collarId) {
         this.collarId = collarId;
     }
 
@@ -83,9 +83,22 @@ public class Dog {
     }
 
 
+
+    @Override
+    public String toString() {
+        return "Dog{" +
+                "collarId='" + collarId + '\'' +
+                ", name='" + name + '\'' +
+                ", breed='" + breed + '\'' +
+                ", color='" + color + '\'' +
+                ", size=" + size +
+                ", notes='" + notes + '\'' +
+                '}';
+    }
+
     public static class DogBuilder {
         //required
-        private int collarId;
+        private String collarId;
 
 
         //optional
@@ -96,12 +109,12 @@ public class Dog {
         private String notes;
 
 
-        public DogBuilder(int collarId) {
+        public DogBuilder(String collarId) {
             this.collarId = collarId;
         }
 
 
-        public DogBuilder setCollarId(int collarId) {
+        public DogBuilder setCollarId(String collarId) {
             this.collarId = collarId;
             return this;
         }

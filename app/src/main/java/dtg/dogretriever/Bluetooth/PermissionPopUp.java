@@ -6,14 +6,17 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.view.Gravity;
 import android.widget.Toast;
 
 import dtg.dogretriever.Presenter.ScannerActivity;
 
-public class Utils {
+public class PermissionPopUp {
 
     private static final int REQUEST_ENABLE_BT=1;
+
+
 
     public static boolean checkBluetooth(BluetoothAdapter bluetoothAdapter) {
 
@@ -64,4 +67,5 @@ public class Utils {
 
         return true;
     }
+
 }

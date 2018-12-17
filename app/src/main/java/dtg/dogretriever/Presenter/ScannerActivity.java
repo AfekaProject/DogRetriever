@@ -14,6 +14,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import dtg.dogretriever.Bluetooth.Beacon;
+import dtg.dogretriever.Bluetooth.MyLocation;
 import dtg.dogretriever.Bluetooth.PermissionPopUp;
 import dtg.dogretriever.DebugUtils;
 import dtg.dogretriever.Model.Dog;
@@ -50,6 +51,9 @@ public class ScannerActivity extends AppCompatActivity implements ScannerService
 
         dogScanList.setAdapter(dogScanAdapter);
         dogArrayList = DebugUtils.createDogArrayList();
+
+        MyLocation mLocation = new MyLocation(this,MyLocation.UserType.SMARTPHONE);
+        Log.println(Log.ASSERT,TAG,mLocation.getLastLocation().toString());
     }
 
     @Override
@@ -90,6 +94,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerService
     public void onBeaconIdentifier(String deviceAddress, int rssi, String instanceId) {
         final long now = System.currentTimeMillis();
         //if beacon already have been Identified
+        Log.println(Log.ASSERT,TAG, "Eddystone(" + deviceAddress + ") id = " + instanceId);
         for (Beacon item : beaconsFound){
             if (instanceId.equals(item.getId())) {
                 item.update(deviceAddress, rssi, now);
@@ -97,21 +102,19 @@ public class ScannerActivity extends AppCompatActivity implements ScannerService
             }
         }
         //create new beacon obj
-
-
         Beacon beacon = new Beacon(deviceAddress, rssi, instanceId, now);
         beaconsFound.add(beacon);
         //relate to dog and view in listView
         Dog dog = searchRelateDog(instanceId);
         if (ScannerService.DEBUG_SCAN) {
             Log.println(Log.ASSERT,TAG, "Eddystone(" + deviceAddress + ") id = " + instanceId);
-            Log.println(Log.ASSERT,TAG, dog.toString());
+            if (dog != null)
+                Log.println(Log.ASSERT,TAG, dog.toString());
         }
         if (dog != null){
             dogsInListView.add(dog);
             dogScanAdapter.notifyDataSetChanged();
         }
-
     }
 
     private Dog searchRelateDog (String id){
@@ -122,10 +125,4 @@ public class ScannerActivity extends AppCompatActivity implements ScannerService
         }
         return null;
     }
-
-
-
-
-
-
 }

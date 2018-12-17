@@ -19,7 +19,7 @@ public class Dog {
         this.name = name;
     } //remove after creating database
 
-    public Dog(){}
+    public Dog(){ }
 
     private Dog(DogBuilder dogBuilder){
         setCollarId(dogBuilder.collarId);

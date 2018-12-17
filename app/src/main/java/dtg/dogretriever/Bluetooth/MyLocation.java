@@ -16,7 +16,8 @@ public class MyLocation{
     public enum UserType {SMARTPHONE,STATIONARY}
 
     private UserType userType;
-    private Coordinate currentLocation;
+    private Coordinate currentCoordinate;
+    private Location lastLocation;
     private LocationManager locationManager;
     private Context context;
 
@@ -24,7 +25,7 @@ public class MyLocation{
     public MyLocation(Context context,UserType userType){
         this.context = context;
         this.userType = userType;
-        currentLocation = new Coordinate();
+        currentCoordinate = new Coordinate();
         switch (userType){
             case SMARTPHONE:
                 updateToLastKnowLocation();
@@ -38,7 +39,7 @@ public class MyLocation{
     }
 
     private void readLocationFromLocal(){
-        currentLocation.setLocation(setDummy());
+        lastLocation.set(setDummy());
     }
 
     private boolean checkGPSStatus(){
@@ -60,28 +61,35 @@ public class MyLocation{
 
     @SuppressWarnings("MissingPermission")
     private void updateToLastKnowLocation(){
-        Location lastLocation;
         if (userType== UserType.SMARTPHONE && checkGPSStatus()){
             Criteria criteria = new Criteria();
             criteria.setAccuracy(Criteria.ACCURACY_FINE);
             criteria.setPowerRequirement(Criteria.NO_REQUIREMENT);
             lastLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, true));
-            currentLocation.setLocation(new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude()));
+            currentCoordinate.setLocation(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
         }
     }
 
-    public Coordinate getCurrentLocation() {
+    public Coordinate getCurrentCoordinate() {
         if (userType == UserType.SMARTPHONE)
             updateToLastKnowLocation();
 
         Date currentTime = Calendar.getInstance().getTime();
-        currentLocation.setTimeStamp(currentTime);
-        return currentLocation;
+        currentCoordinate.setTimeStamp(currentTime);
+        return currentCoordinate;
     }
 
 
-    public LatLng setDummy(){
-        return new LatLng(32.113086,34.818021);
+    private Location setDummy(){
+        Location location = new Location("dummy");
+        location.setLatitude(32.113086);
+        location.setLongitude(34.818021);
+        return location;
+    }
+
+    public Location getLastLocation(){
+        updateToLastKnowLocation();
+        return lastLocation;
     }
 
 }

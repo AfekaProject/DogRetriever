@@ -72,7 +72,6 @@ public class ScannerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         stopScanning();
     }
 
@@ -121,8 +120,7 @@ public class ScannerService extends Service {
     /* Handle UID packet discovery on the main thread */
     private void processUidPacket(String deviceAddress, int rssi, String id) {
         if (mBeaconEventListener != null) {
-            mBeaconEventListener
-                    .onBeaconIdentifier(deviceAddress, rssi, id);
+            mBeaconEventListener.onBeaconIdentifier(deviceAddress, rssi, id);
         }
     }
 

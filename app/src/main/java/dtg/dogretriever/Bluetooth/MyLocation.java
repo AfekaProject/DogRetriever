@@ -22,9 +22,17 @@ public class MyLocation{
     private Context context;
 
 
+    /*
+    for regular GPS current location from smartphone
+    use this code: (getLastLocation return Location Object)
+    MyLocation mLocation = new MyLocation(this,MyLocation.UserType.SMARTPHONE);
+    mLocation.getLastLocation();
+     */
+
     public MyLocation(Context context,UserType userType){
         this.context = context;
         this.userType = userType;
+        lastLocation = new Location("lastLocation");
         currentCoordinate = new Coordinate();
         switch (userType){
             case SMARTPHONE:
@@ -65,7 +73,7 @@ public class MyLocation{
             Criteria criteria = new Criteria();
             criteria.setAccuracy(Criteria.ACCURACY_FINE);
             criteria.setPowerRequirement(Criteria.NO_REQUIREMENT);
-            lastLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, true));
+            lastLocation.set(locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, true)));
             currentCoordinate.setLocation(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
         }
     }
@@ -73,7 +81,6 @@ public class MyLocation{
     public Coordinate getCurrentCoordinate() {
         if (userType == UserType.SMARTPHONE)
             updateToLastKnowLocation();
-
         Date currentTime = Calendar.getInstance().getTime();
         currentCoordinate.setTimeStamp(currentTime);
         return currentCoordinate;
